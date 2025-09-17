@@ -1,11 +1,11 @@
 module Api
   module V1
     class AnimalsController < ApplicationController
-      before_action :set_animal, only: [:show, :update]
+      before_action :set_animal, only: [ :show, :update ]
 
       # Only admins can create/update
-      before_action :require_admin!, only: [:create, :update]
-      
+      before_action :require_admin!, only: [ :create, :update ]
+
       def index
         animals = Animal.all
         render json: animals
@@ -25,27 +25,27 @@ module Api
       end
 
       def update
-	    if @animal.update(animal_params)
-	      render json: @animal, status: :ok
-	    else
-	      render json: { errors: @animal.errors.full_messages }, status: :unprocessable_entity
-	    end
-	  end
+      if @animal.update(animal_params)
+        render json: @animal, status: :ok
+      else
+        render json: { errors: @animal.errors.full_messages }, status: :unprocessable_entity
+      end
+    end
 
-	  # GET /api/v1/animals_with_feeds
+      # GET /api/v1/animals_with_feeds
       def with_feeds
         animals = Animal.includes(formulations: :feed)
 
         render json: animals.as_json(
-          only: [:id, :name, :species, :age, :weight],
+          only: [ :id, :name, :species, :age, :weight ],
           include: {
             formulations: {
-              only: [:name, :description, :quantity],
+              only: [ :name, :description, :quantity ],
               include: {
-	            feed: {
-	              only: [:id, :name, :protein, :fiber, :fat]
-	            }
-	          }
+              feed: {
+                only: [ :id, :name, :protein, :fiber, :fat ]
+              }
+            }
             }
           }
         )
@@ -58,11 +58,10 @@ module Api
       end
 
       def set_animal
-	    @animal = Animal.find(params[:id])
-	  rescue ActiveRecord::RecordNotFound
-	    render json: { error: "Animal not found" }, status: :not_found
-	  end
+      @animal = Animal.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      render json: { error: "Animal not found" }, status: :not_found
+    end
     end
   end
 end
-

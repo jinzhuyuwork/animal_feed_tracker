@@ -1,10 +1,10 @@
 module Api
   module V1
     class FeedsController < ApplicationController
-      before_action :set_feed, only: [:show, :update]
+      before_action :set_feed, only: [ :show, :update ]
 
       # Only admins can create/update
-      before_action :require_admin!, only: [:create, :update]
+      before_action :require_admin!, only: [ :create, :update ]
 
       def index
         feeds = Feed.all
@@ -24,13 +24,13 @@ module Api
         end
       end
 
-	  def update
-	    if @feed.update(feed_params)
-	      render json: @feed, status: :ok
-	    else
-	      render json: { errors: @feed.errors.full_messages }, status: :unprocessable_entity
-	    end
-	  end
+    def update
+      if @feed.update(feed_params)
+        render json: @feed, status: :ok
+      else
+        render json: { errors: @feed.errors.full_messages }, status: :unprocessable_entity
+      end
+    end
 
       private
 
@@ -39,10 +39,10 @@ module Api
       end
 
       def set_feed
-	    @feed = Feed.find(params[:id])
-	  rescue ActiveRecord::RecordNotFound
-	    render json: { error: "Feed not found" }, status: :not_found
-	  end
+      @feed = Feed.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      render json: { error: "Feed not found" }, status: :not_found
+    end
     end
   end
 end
