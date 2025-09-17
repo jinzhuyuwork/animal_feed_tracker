@@ -48,4 +48,5 @@ end
 
 gem 'devise'
 gem 'devise-jwt'
+gem 'rack-attack'
 
