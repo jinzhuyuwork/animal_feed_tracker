@@ -23,12 +23,12 @@ soy = Feed.create!(name: "Soy Meal", protein: 44.0, fat: 1.5, fiber: 6.0, vitami
 barley = Feed.create!(name: "Barley Feed", protein: 10.0, fat: 2.0, fiber: 8.0, vitamins: "E", minerals: "K,Fe")
 
 # Create sample formulations
-Formulation.create!(animal: cow, feed: corn, quantity: 5.0)
-Formulation.create!(animal: cow, feed: soy, quantity: 2.0)
-Formulation.create!(animal: chicken, feed: corn, quantity: 0.5)
-Formulation.create!(animal: chicken, feed: barley, quantity: 0.3)
-Formulation.create!(animal: pig, feed: soy, quantity: 3.0)
-Formulation.create!(animal: pig, feed: barley, quantity: 2.5)
+Formulation.create!(animal: cow, feed: corn, quantity: 5.0, name: "High Protein", description: "This is a formula with high protein")
+Formulation.create!(animal: cow, feed: soy, quantity: 2.0, name: "Low fat", description: "This is a formula with low fat")
+Formulation.create!(animal: chicken, feed: corn, quantity: 0.5, name: "Low protein", description: "This is a formula with low protein")
+Formulation.create!(animal: chicken, feed: barley, quantity: 0.3, name: "Balance feed", description: "This is a formula with balance nutrition")
+Formulation.create!(animal: pig, feed: soy, quantity: 3.0, name: "Medium Protein", description: "This is a formula with medium protein")
+Formulation.create!(animal: pig, feed: barley, quantity: 2.5, name: "High Fiber", description: "This is a formula with high fiber")
 
 # Create default admin user for testing authentication
 User.destroy_all

@@ -20,6 +20,7 @@ Rails.application.routes.draw do
       resources :feeds
       resources :formulations
       get 'users/me', to: 'users#me'
+      get 'animals_with_feeds', to: 'animals#with_feeds'
     end
   end
 end

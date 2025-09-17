@@ -32,6 +32,25 @@ module Api
 	    end
 	  end
 
+	  # GET /api/v1/animals_with_feeds
+      def with_feeds
+        animals = Animal.includes(formulations: :feed)
+
+        render json: animals.as_json(
+          only: [:id, :name, :species, :age, :weight],
+          include: {
+            formulations: {
+              only: [:name, :description, :quantity],
+              include: {
+	            feed: {
+	              only: [:id, :name, :protein, :fiber, :fat]
+	            }
+	          }
+            }
+          }
+        )
+      end
+
       private
 
       def animal_params
