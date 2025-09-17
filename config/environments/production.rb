@@ -86,4 +86,8 @@ Rails.application.configure do
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
   config.require_master_key = true
+
+  # Disable Action Cable in production (for API only app)
+  config.action_cable.mount_path = nil
+  config.action_cable.disable_request_forgery_protection = true
 end
