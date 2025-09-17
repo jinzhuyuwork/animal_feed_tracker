@@ -3,9 +3,13 @@
 one:
   animal: one
   feed: one
-  quantity: 9.99
+  quantity: 2.5
+  name: High Protein
+  description: This is a high protein formulation
 
 two:
   animal: two
   feed: two
-  quantity: 9.99
+  quantity: 3.5
+  name: High Fiber
+  description: This is a high fiber formulation

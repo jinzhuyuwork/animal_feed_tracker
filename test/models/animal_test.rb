@@ -1,7 +1,8 @@
 require "test_helper"
 
 class AnimalTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test "valid animal" do
+    animal = animals(:one)
+    assert animal.valid?
+  end
 end

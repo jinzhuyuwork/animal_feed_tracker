@@ -1,7 +1,8 @@
 require "test_helper"
 
 class FeedTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test "valid feed" do
+    feed = feeds(:one)
+    assert feed.valid?
+  end
 end

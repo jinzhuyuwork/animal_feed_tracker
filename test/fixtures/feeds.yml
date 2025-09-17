@@ -1,17 +1,17 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
+  name: Corn Mix
   protein: 9.99
   fat: 9.99
   fiber: 9.99
-  vitamins: MyText
-  minerals: MyText
+  vitamins: A, B
+  minerals: Ca
 
 two:
-  name: MyString
+  name: Hay
   protein: 9.99
   fat: 9.99
   fiber: 9.99
-  vitamins: MyText
-  minerals: MyText
+  vitamins: B12
+  minerals: P

@@ -35,7 +35,7 @@ module Api
       private
 
       def formulation_params
-        params.require(:formulation).permit(:animal_id, :feed_id, :quantity)
+        params.require(:formulation).permit(:animal_id, :feed_id, :quantity, :name, :description)
       end
 
       def set_formulation

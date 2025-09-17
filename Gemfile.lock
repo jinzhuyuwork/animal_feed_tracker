@@ -99,6 +99,7 @@ GEM
     devise-jwt (0.12.1)
       devise (~> 4.0)
       warden-jwt_auth (~> 0.10)
+    docile (1.4.1)
     dotenv (3.1.8)
     drb (2.2.3)
     dry-auto_inject (1.1.0)
@@ -289,6 +290,12 @@ GEM
       rubocop-rails (>= 2.30)
     ruby-progressbar (1.13.0)
     securerandom (0.4.1)
+    simplecov (0.22.0)
+      docile (~> 1.1)
+      simplecov-html (~> 0.11)
+      simplecov_json_formatter (~> 0.1)
+    simplecov-html (0.13.2)
+    simplecov_json_formatter (0.1.4)
     solid_cable (3.0.12)
       actioncable (>= 7.2)
       activejob (>= 7.2)
@@ -362,6 +369,7 @@ DEPENDENCIES
   rack-attack
   rails (~> 8.0.2, >= 8.0.2.1)
   rubocop-rails-omakase
+  simplecov
   solid_cable
   solid_cache
   solid_queue

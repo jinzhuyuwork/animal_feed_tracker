@@ -1,7 +1,8 @@
 require "test_helper"
 
 class JwtDenylistTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test "valid JwtDenylist" do
+    denylist = jwt_denylists(:one)
+    assert denylist.valid?
+  end
 end
