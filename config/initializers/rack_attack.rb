@@ -1,6 +1,6 @@
 class Rack::Attack
   # 1. Throttle logins by IP address: max 5 requests per 20 seconds
-  throttle('logins/ip', limit: 5, period: 20.seconds) do |req|
+  throttle('logins/ip', limit: 2, period: 20.seconds) do |req|
     if req.path == '/users/sign_in' && req.post?
       req.ip
     end
@@ -15,7 +15,7 @@ class Rack::Attack
   # self.blocklist('block 1.2.3.4') { |req| '1.2.3.4' == req.ip }
 
   # Response for throttled requests:
-  self.throttled_response = lambda do |env|
+  Rack::Attack.throttled_responder = ->(env) do
     [429,  # status
      { 'Content-Type' => 'application/json' },
      [{ error: 'Rate limit exceeded. Please try again later.' }.to_json]]
