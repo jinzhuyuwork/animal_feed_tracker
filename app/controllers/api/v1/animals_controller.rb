@@ -1,14 +1,15 @@
 module Api
   module V1
     class AnimalsController < ApplicationController
+      before_action :set_animal, only: [:show, :update]
+      
       def index
         animals = Animal.all
         render json: animals
       end
 
       def show
-        animal = Animal.find(params[:id])
-        render json: animal, include: :feeds
+        render json: @animal
       end
 
       def create
@@ -20,11 +21,25 @@ module Api
         end
       end
 
+      def update
+	    if @animal.update(animal_params)
+	      render json: @animal, status: :ok
+	    else
+	      render json: { errors: @animal.errors.full_messages }, status: :unprocessable_entity
+	    end
+	  end
+
       private
 
       def animal_params
         params.require(:animal).permit(:name, :species, :age, :weight)
       end
+
+      def set_animal
+	    @animal = Animal.find(params[:id])
+	  rescue ActiveRecord::RecordNotFound
+	    render json: { error: "Animal not found" }, status: :not_found
+	  end
     end
   end
 end
