@@ -2,6 +2,9 @@ module Api
   module V1
     class FormulationsController < ApplicationController
       before_action :set_formulation, only: [:show, :update]
+
+      # Only admins can create/update
+      before_action :require_admin!, only: [:create, :update]
       
       def index
         formulations = Formulation.all
@@ -32,7 +35,7 @@ module Api
       private
 
       def formulation_params
-        params.require(:formulation).permit(:annimal_id, :feed_id, :quantity)
+        params.require(:formulation).permit(:animal_id, :feed_id, :quantity)
       end
 
       def set_formulation

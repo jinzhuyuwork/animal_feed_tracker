@@ -2,6 +2,9 @@ module Api
   module V1
     class AnimalsController < ApplicationController
       before_action :set_animal, only: [:show, :update]
+
+      # Only admins can create/update
+      before_action :require_admin!, only: [:create, :update]
       
       def index
         animals = Animal.all

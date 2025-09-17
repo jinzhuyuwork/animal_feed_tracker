@@ -36,11 +36,13 @@ User.destroy_all
 User.create!(
   email: 'admin@example.com',
   password: 'password123',
-  password_confirmation: 'password123'
+  password_confirmation: 'password123',
+  admin: true
 )
 
 User.create!(
   email: 'guest@example.com',
   password: 'password123',
-  password_confirmation: 'password123'
+  password_confirmation: 'password123',
+  admin: false
 )

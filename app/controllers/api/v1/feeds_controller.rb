@@ -3,6 +3,9 @@ module Api
     class FeedsController < ApplicationController
       before_action :set_feed, only: [:show, :update]
 
+      # Only admins can create/update
+      before_action :require_admin!, only: [:create, :update]
+
       def index
         feeds = Feed.all
         render json: feeds
