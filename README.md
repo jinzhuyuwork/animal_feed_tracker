@@ -32,7 +32,6 @@ This app allows users to manage animals, feeds, and formulations, and retrieve d
 - Ruby 3.x
 - Rails 8.x
 - PostgreSQL
-- Node.js & Yarn (optional for frontend assets)
 - Bundler (`gem install bundler`)
 
 ---
@@ -75,7 +74,29 @@ API available at http://localhost:3000/api/v1/
 | ------ | ---------------- | ------------------------------- |
 | POST   | /users/sign\_in  | Login                           |
 | GET    | /users/me        | Show Ucurrent login user details|
-
+#### Sample request: login
+```
+POST /users/sign_in
+{
+  "user": {
+    "email": "test@example.com",
+    "password": "password123"
+  }
+}
+````
+#### Sample JSON Response
+```
+{
+  "user": {
+    "id":5,
+    "email":"test@example.com",
+    "created_at":"2025-09-17T05:36:44.111Z",
+    "updated_at":"2025-09-17T05:36:44.111Z",
+    "admin":false
+  },
+  "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1Iiwic2NwIjoidXNlciIsImF1ZCI6bnVsbCwiaWF0IjoxNzU4MTI5MTQ1LCJleHAiOjE3NTgyMTU1NDUsImp0aSI6IjA4OTA5NmY5LTU3MDctNGJhOC1iYzdkLWZjNjI3NmFmMWUzNyJ9.pifYzS1KyhM3FFKYAVjcHk48lZn99RgQgllzmVRqHQY"
+}
+```
 ### Animals
 | Method | Endpoint                   | Description                                     |
 | ------ | -------------------------- | ----------------------------------------------- |
@@ -93,71 +114,71 @@ GET /api/v1/animals_with_feeds
 ```
 
 [
-	{
-	  "id": 11,
-	  "name": "Bessie",
-	  "species": "Cow",
-	  "age": 4,
-	  "weight": "450.5",
-	  "formulations": [
-	    {
-	      "name": "High Protein",
-	      "description": "This is a formula with high protein",
-	      "quantity": "5.0",
-	      "feed": {
-	        "id": 11,
-	        "name": "Corn Mix - fresh",
-	        "protein": "8.0",
-	        "fiber": "5.0",
-	        "fat": "3.5"
-	      }
-	    },
-	    {
-	      "name": "Low fat",
-	      "description": "This is a formula with low fat",
-	      "quantity": "2.0",
-	      "feed": {
-	        "id": 12,
-	        "name": "Soy Meal",
-	        "protein": "44.0",
-	        "fiber": "6.0",
-	        "fat": "1.5"
-	      }
-	    }
-	  ]
-	},
-	{
-	  "id": 12,
-	  "name": "Clucky",
-	  "species": "Chicken",
-	  "age": 1,
-	  "weight": "2.3",
-	  "formulations": [
-	    {
-	      "name": "Low protein",
-	      "description": "This is a formula with low protein",
-	      "quantity": "0.5",
-	      "feed": {
-	        "id": 11,
-	        "name": "Corn Mix - fresh",
-	        "protein": "8.0",
-	        "fiber": "5.0",
-	        "fat": "3.5"
-	      }
-	    },
-	   {
-	     "name": "Balance feed",
-	     "description": "This is a formula with balance nutrition",
-	     "quantity": "0.3",
-	     "feed": {
-	       "id": 13,
-	       "name": "Barley Feed",
-	       "protein": "10.0",
-	       "fiber": "8.0",
-	       "fat": "2.0"
-	     }
-	   }
-	 ]
+  {
+    "id": 11,
+    "name": "Bessie",
+    "species": "Cow",
+    "age": 4,
+    "weight": "450.5",
+    "formulations": [
+      {
+        "name": "High Protein",
+        "description": "This is a formula with high protein",
+        "quantity": "5.0",
+        "feed": {
+          "id": 11,
+          "name": "Corn Mix - fresh",
+          "protein": "8.0",
+          "fiber": "5.0",
+          "fat": "3.5"
+        }
+      },
+      {
+        "name": "Low fat",
+        "description": "This is a formula with low fat",
+        "quantity": "2.0",
+        "feed": {
+          "id": 12,
+          "name": "Soy Meal",
+          "protein": "44.0",
+          "fiber": "6.0",
+          "fat": "1.5"
+        }
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "name": "Clucky",
+    "species": "Chicken",
+    "age": 1,
+    "weight": "2.3",
+    "formulations": [
+      {
+        "name": "Low protein",
+        "description": "This is a formula with low protein",
+        "quantity": "0.5",
+        "feed": {
+          "id": 11,
+          "name": "Corn Mix - fresh",
+          "protein": "8.0",
+          "fiber": "5.0",
+          "fat": "3.5"
+        }
+      },
+     {
+       "name": "Balance feed",
+       "description": "This is a formula with balance nutrition",
+       "quantity": "0.3",
+       "feed": {
+         "id": 13,
+         "name": "Barley Feed",
+         "protein": "10.0",
+         "fiber": "8.0",
+         "fat": "2.0"
+       }
+     }
+   ]
    }
 ]
 ```
@@ -221,44 +242,41 @@ POST /api/v1/animals
 ```
 ## Authentication
 
-* Uses Devise + JWT for token-based authentication.
-
-* Include header in requests:
+- Uses Devise + JWT for token-based authentication.
+- Include header in requests:
 ```
 Authorization: Bearer <your_jwt_token>
 ```
-* Tokens are issued on login and required for all protected endpoints.
+- Tokens are issued on login and required for all protected endpoints.
+
+## Authorization
+- Only admin users can create/update animals/feeds/formulations
+- All logged in users can view animals/feeds/formulations
 
 ## Testing
 
-* Minitest for unit, controller, and integration tests.
-
-* SimpleCov for test coverage:
+- Minitest for unit, controller, and integration tests.
+- SimpleCov for test coverage:
 ```
 bin/rails test
 open coverage/index.html
 ```
 
-* Integration tests cover API endpoints including controllers.
+- Integration tests cover API endpoints including controllers.
 
 ## Contributing
 
-* Fork the repository
-
-* Create a feature branch
-
-* Commit your changes
-
-* Push to branch
-
-* Open a pull request
+- Fork the repository
+- Create a feature branch
+- Commit your changes
+- Push to branch
+- Open a pull request
 
 ## License
 
-* MIT License
+- MIT License
 
 ## Contact
 
-* Email: janet.yu.2010@gmail.com
-
-* GitHub: jinzhuyuwork
+- Email: janet.yu.2010@gmail.com
+- GitHub: jinzhuyuwork
