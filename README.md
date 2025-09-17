@@ -177,9 +177,9 @@ GET /api/v1/animals_with_feeds
          "fiber": "8.0",
          "fat": "2.0"
        }
-     }
-   ]
-   }
+      }
+    ]
+  }
 ]
 ```
 
