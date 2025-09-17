@@ -8,9 +8,9 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 # Destroy old records (optional)
-# Formulation.destroy_all
-# Animal.destroy_all
-# Feed.destroy_all
+Formulation.destroy_all
+Animal.destroy_all
+Feed.destroy_all
 
 # Create sample animals
 cow = Animal.create!(name: "Bessie", species: "Cow", age: 4, weight: 450.5)
@@ -29,3 +29,18 @@ Formulation.create!(animal: chicken, feed: corn, quantity: 0.5)
 Formulation.create!(animal: chicken, feed: barley, quantity: 0.3)
 Formulation.create!(animal: pig, feed: soy, quantity: 3.0)
 Formulation.create!(animal: pig, feed: barley, quantity: 2.5)
+
+# Create default admin user for testing authentication
+User.destroy_all
+
+User.create!(
+  email: 'admin@example.com',
+  password: 'password123',
+  password_confirmation: 'password123'
+)
+
+User.create!(
+  email: 'guest@example.com',
+  password: 'password123',
+  password_confirmation: 'password123'
+)

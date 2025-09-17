@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  devise_for :users,
+             defaults: { format: :json },
+             controllers: {
+               sessions: 'users/sessions',
+               registrations: 'users/registrations'
+             }
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -12,6 +19,7 @@ Rails.application.routes.draw do
       resources :animals
       resources :feeds
       resources :formulations
+      get 'users/me', to: 'users#me'
     end
   end
 end
