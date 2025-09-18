@@ -5,4 +5,10 @@ class AnimalTest < ActiveSupport::TestCase
     animal = animals(:one)
     assert animal.valid?
   end
+
+  test "animal name is required" do
+    animal = animals(:one)
+    animal.name = nil
+    assert_equal(false, animal.valid?)
+  end
 end

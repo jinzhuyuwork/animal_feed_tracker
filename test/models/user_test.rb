@@ -12,4 +12,10 @@ class UserTest < ActiveSupport::TestCase
     assert guest.valid?
     assert_equal(false, guest.admin?)
   end
+
+  test "user email is required" do
+    guest = users(:guest)
+    guest.email = nil
+    assert_equal(false, guest.valid?)
+  end
 end

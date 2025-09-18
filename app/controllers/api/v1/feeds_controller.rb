@@ -20,7 +20,7 @@ module Api
         if feed.save
           render json: feed, status: :created
         else
-          render json: feed.errors, status: :unprocessable_entity
+          render json: feed.errors, status: :unprocessable_content
         end
       end
 
@@ -28,17 +28,17 @@ module Api
       if @feed.update(feed_params)
         render json: @feed, status: :ok
       else
-        render json: { errors: @feed.errors.full_messages }, status: :unprocessable_entity
+        render json: { errors: @feed.errors.full_messages }, status: :unprocessable_content
       end
     end
 
-      private
+    private
 
-      def feed_params
-        params.require(:feed).permit(:name, :protein, :fat, :fiber, :vitamins, :minerals)
-      end
+    def feed_params
+      params.require(:feed).permit(:name, :protein, :fat, :fiber, :vitamins, :minerals)
+    end
 
-      def set_feed
+    def set_feed
       @feed = Feed.find(params[:id])
     rescue ActiveRecord::RecordNotFound
       render json: { error: "Feed not found" }, status: :not_found

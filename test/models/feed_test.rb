@@ -5,4 +5,10 @@ class FeedTest < ActiveSupport::TestCase
     feed = feeds(:one)
     assert feed.valid?
   end
+
+  test "feed name is required" do
+    feed = feeds(:one)
+    feed.name = nil
+    assert_equal(false, feed.valid?)
+  end
 end

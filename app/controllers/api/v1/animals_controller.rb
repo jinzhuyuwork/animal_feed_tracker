@@ -20,7 +20,7 @@ module Api
         if animal.save
           render json: animal, status: :created
         else
-          render json: animal.errors, status: :unprocessable_entity
+          render json: animal.errors, status: :unprocessable_content
         end
       end
 
@@ -28,7 +28,7 @@ module Api
       if @animal.update(animal_params)
         render json: @animal, status: :ok
       else
-        render json: { errors: @animal.errors.full_messages }, status: :unprocessable_entity
+        render json: { errors: @animal.errors.full_messages }, status: :unprocessable_content
       end
     end
 

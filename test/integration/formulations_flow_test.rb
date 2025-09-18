@@ -88,6 +88,54 @@ class Api::V1::FormulationsFlowTest < ActionDispatch::IntegrationTest
     assert_equal "New Formula", @formulation1.name
   end
 
+  test "should return 404 if formulation does not exist" do
+    @formulation1.destroy!
+    get api_v1_formulation_url(@formulation1), headers: auth_headers
+    assert_response :not_found
+  end
+
+  test "should not create formulation with invalid data" do
+    post api_v1_formulations_url,
+           params: { formulation: { quantity: nil } },
+           headers: auth_headers
+    assert_response :unprocessable_content
+  end
+
+  test "should not update formulation with invalid data" do
+    patch api_v1_formulation_url(@formulation1),
+          params: { formulation: { quantity: nil } },
+          headers: @auth_headers
+    assert_response :unprocessable_content
+  end
+
+  test "non-admin user should not allow to create formulation" do
+    guest = users(:guest)
+    jwt, _payload = Warden::JWTAuth::UserEncoder.new.call(guest, :user, nil)
+    headers = {
+      "Authorization" => "Bearer #{jwt}"
+    }
+
+    post api_v1_formulations_url,
+      params: { formulation: { name: "New Formula", description: "A new formula with high protein", animal_id: @animal1.id, feed_id: @feed2.id, quantity: 4.0 } },
+      headers: headers
+
+    assert_response :forbidden
+  end
+
+  test "non-admin user should not allow to update formulation" do
+    guest = users(:guest)
+    jwt, _payload = Warden::JWTAuth::UserEncoder.new.call(guest, :user, nil)
+    headers = {
+      "Authorization" => "Bearer #{jwt}"
+    }
+
+    patch api_v1_formulation_url(@formulation1),
+          params: { formulation: { quantity: 3.0 } },
+          headers: headers
+
+    assert_response :forbidden
+  end
+
   private
 
   # Helper for authorization headers

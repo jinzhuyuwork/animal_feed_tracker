@@ -5,4 +5,10 @@ class FormulationTest < ActiveSupport::TestCase
     formulation = formulations(:one)
     assert formulation.valid?
   end
+
+  test "formulation quantity is required" do
+    formulation = formulations(:one)
+    formulation.quantity = nil
+    assert_equal(false, formulation.valid?)
+  end
 end

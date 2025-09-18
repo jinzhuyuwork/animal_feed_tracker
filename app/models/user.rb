@@ -8,4 +8,6 @@ class User < ApplicationRecord
          :jwt_authenticatable,
          # jwt_revocation_strategy: JwtDenylist
          jwt_revocation_strategy: Devise::JWT::RevocationStrategies::Null
+
+  validates :email, presence: true
 end

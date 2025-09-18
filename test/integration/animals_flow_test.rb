@@ -135,6 +135,96 @@ class AnimalsFlowTest < ActionDispatch::IntegrationTest
     assert_equal "New Doggy", @animal1.name
   end
 
+  test "non-admin user should allow to fetch animal data" do
+    guest = users(:guest)
+    jwt, _payload = Warden::JWTAuth::UserEncoder.new.call(guest, :user, nil)
+    headers = {
+      "Authorization" => "Bearer #{jwt}"
+    }
+    expected = [
+      {
+        "id" => @animal1.id,
+        "name" => "Doggy",
+        "species" => "Dog",
+        "age" => 1,
+        "weight" => "19.99"
+      },
+      {
+        "id" => @animal2.id,
+        "name" => "Kitty",
+        "species" => "Cat",
+        "age" => 2,
+        "weight" => "9.99"
+      }
+    ]
+
+    get api_v1_animals_url, headers: headers
+    assert_response :success
+    animals = JSON.parse(response.body)
+    assert_kind_of Array, animals
+    animals.map { |a| a.delete_if { |key, value| key == "created_at" || key == "updated_at" } }
+    assert_equal(animals, expected)
+  end
+
+  test "should return 404 if animal does not exist" do
+    @animal1.destroy!
+    get api_v1_animal_url(@animal1), headers: auth_headers
+    assert_response :not_found
+  end
+
+  test "should not create animal with invalid data" do
+    post api_v1_animals_url,
+           params: { animal: { name: nil, species: "Goat" } },
+           headers: auth_headers
+    assert_response :unprocessable_content
+  end
+
+  test "should not update animal with invalid data" do
+    patch api_v1_animal_url(@animal1),
+          params: { animal: { name: nil } },
+          headers: @auth_headers
+    assert_response :unprocessable_content
+  end
+
+  test "non-admin user should not allow to create animal" do
+    guest = users(:guest)
+    jwt, _payload = Warden::JWTAuth::UserEncoder.new.call(guest, :user, nil)
+    headers = {
+      "Authorization" => "Bearer #{jwt}"
+    }
+
+    post api_v1_animals_url,
+      params: { animal: { name: "New Animal", species: "Goat" } },
+      headers: headers
+
+    assert_response :forbidden
+  end
+
+  test "non-admin user should not allow to update animal" do
+    guest = users(:guest)
+    jwt, _payload = Warden::JWTAuth::UserEncoder.new.call(guest, :user, nil)
+    headers = {
+      "Authorization" => "Bearer #{jwt}"
+    }
+
+    patch api_v1_animal_url(@animal1),
+          params: { animal: { name: "New Doggy" } },
+          headers: headers
+
+    assert_response :forbidden
+  end
+
+  test "non-login user should not allow to fetch animal data" do
+    get api_v1_animal_url(@animal1)
+    assert_response :unauthorized
+  end
+
+  test "non-login user should not allow to create animal" do
+    post api_v1_animals_url,
+      params: { animal: { name: "New Animal", species: "Goat" } }
+    assert_response :unauthorized
+  end
+
   private
 
   # Helper for authorization headers

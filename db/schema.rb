@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_17_052418) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_17_230203) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "animals", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.string "species"
     t.integer "age"
     t.decimal "weight"
@@ -24,7 +24,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_17_052418) do
   end
 
   create_table "feeds", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.decimal "protein"
     t.decimal "fat"
     t.decimal "fiber"
@@ -37,7 +37,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_17_052418) do
   create_table "formulations", force: :cascade do |t|
     t.bigint "animal_id", null: false
     t.bigint "feed_id", null: false
-    t.decimal "quantity"
+    t.decimal "quantity", default: "0.0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name", default: "", null: false
