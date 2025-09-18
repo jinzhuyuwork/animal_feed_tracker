@@ -6,7 +6,6 @@ SimpleCov.start "rails" do
   add_filter "/test/"
   add_filter "/jobs/"
   add_filter "/mailers/"
-  add_filter "/controllers/users/"
 end
 
 ENV["RAILS_ENV"] ||= "test"

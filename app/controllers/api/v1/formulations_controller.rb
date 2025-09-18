@@ -1,10 +1,10 @@
 module Api
   module V1
     class FormulationsController < ApplicationController
-      before_action :set_formulation, only: [ :show, :update ]
-
+      before_action :authenticate_user!
       # Only admins can create/update
       before_action :require_admin!, only: [ :create, :update ]
+      before_action :set_formulation, only: [ :show, :update ]
 
       def index
         formulations = Formulation.all
@@ -20,7 +20,7 @@ module Api
         if formulation.save
           render json: formulation, status: :created
         else
-          render json: formulation.errors, status: :unprocessable_entity
+          render json: formulation.errors, status: :unprocessable_content
         end
       end
 
@@ -28,7 +28,7 @@ module Api
       if @formulation.update(formulation_params)
         render json: @formulation, status: :ok
       else
-        render json: { errors: @formulation.errors.full_messages }, status: :unprocessable_entity
+        render json: { errors: @formulation.errors.full_messages }, status: :unprocessable_content
       end
     end
 
@@ -39,10 +39,10 @@ module Api
       end
 
       def set_formulation
-      @formulation = Formulation.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      render json: { error: "Formulation not found" }, status: :not_found
-    end
+        @formulation = Formulation.find(params[:id])
+      rescue ActiveRecord::RecordNotFound
+        render json: { error: "Formulation not found" }, status: :not_found
+      end
     end
   end
 end
