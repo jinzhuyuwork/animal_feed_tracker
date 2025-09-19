@@ -1,17 +1,24 @@
 class Rack::Attack
-  # 1. Throttle logins by IP address: max 5 requests per 20 seconds
-  throttle('logins/ip', limit: 3, period: 20.seconds) do |req|
+  # 1. Throttle logins: max 5 requests per 20 seconds
+  throttle('logins/ip', limit: 2, period: 20.seconds) do |req|
     if req.path == '/users/sign_in' && req.post?
       # req.ip
-      # req.get_header('action_dispatch.remote_ip')
-      # ActionDispatch::Request.new(req.env).remote_ip
-      req.get_header('HTTP_X_REAL_IP') || req.get_header('action_dispatch.remote_ip')
+      body = req.body.read
+      req.body.rewind
+      email = JSON.parse(body).dig('user', 'email') rescue nil
     end
   end
 
-  # 2. Throttle all API requests by IP address: max 60 requests per minute
-  throttle('req/ip', limit: 60, period: 1.minute) do |req|
-    req.ip if req.path.start_with?('/api/v1/')
+  # 2. Throttle all API requests: max 60 requests per minute
+  # throttle('req/ip', limit: 60, period: 1.minute) do |req|
+  throttle('req/ip', limit: 2, period: 20.seconds) do |req|
+    # req.ip if req.path.start_with?('/api/v1/')
+    # req.get_header('HTTP_AUTHORIZATION') if req.path.start_with?('/api/v1/')
+    auth_header = req.get_header('HTTP_AUTHORIZATION')
+      token = auth_header.split(' ').last if auth_header&.start_with?('Bearer ')
+      
+      # return token or decoded user id for rate limiting key
+      token
   end
 
   # 3. Blocklisted IPs example (optional)

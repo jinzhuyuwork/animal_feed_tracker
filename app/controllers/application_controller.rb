@@ -23,7 +23,7 @@ class ApplicationController < ActionController::API
   private
 
   def log_ip
-    Rails.logger.info "Request IP (request.ip): #{request.ip}"
+    Rails.logger.info "Request IP (request.ip): #{request.ip}, email: #{request.params.dig('user', 'email')&.downcase}"
     Rails.logger.info "Remote IP (request.remote_ip): #{request.remote_ip}"
   end
 end

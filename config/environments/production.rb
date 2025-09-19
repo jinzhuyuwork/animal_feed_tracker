@@ -1,7 +1,5 @@
 require "active_support/core_ext/integer/time"
 
-Rails.application.config.middleware.insert_before 0, Rack::Attack
-
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -88,9 +86,4 @@ Rails.application.configure do
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
   config.require_master_key = true
-
-  config.action_dispatch.trusted_proxies = [
-    IPAddr.new("0.0.0.0/0"), # IPv4
-    IPAddr.new("::/0")       # IPv6
-  ]
 end
