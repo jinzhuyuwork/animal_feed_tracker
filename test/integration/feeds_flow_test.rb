@@ -22,20 +22,46 @@ class Api::V1::FeedsFlowTest < ActionDispatch::IntegrationTest
         "fat" => "9.99",
         "fiber" => "9.99",
         "vitamins" => "A, B",
-        "minerals" => "Ca"
+        "minerals" => "Ca",
+        "category" => "feed"
       },
       {
         "id" => @feed2.id,
-        "name" => "Hay",
-        "protein" => "9.99",
-        "fat" => "9.99",
-        "fiber" => "9.99",
-        "vitamins" => "B12",
-        "minerals" => "P"
+        "name" => "Zinc Supplement",
+        "protein" => nil,
+        "fat" => nil,
+        "fiber" => nil,
+        "vitamins" => nil,
+        "minerals" => "Zn",
+        "category" => "mineral"
       }
     ]
 
     get api_v1_feeds_url, headers: auth_headers
+    assert_response :success
+    feeds = JSON.parse(response.body)
+    assert_kind_of Array, feeds
+    feeds.map { |a| a.delete_if { |key, value| key == "created_at" || key == "updated_at" } }
+    assert_equal(feeds, expected)
+  end
+
+  test "should filter feeds by categoty" do
+    expected = [
+      {
+        "id" => @feed2.id,
+        "name" => "Zinc Supplement",
+        "protein" => nil,
+        "fat" => nil,
+        "fiber" => nil,
+        "vitamins" => nil,
+        "minerals" => "Zn",
+        "category" => "mineral"
+      }
+    ]
+
+    get api_v1_feeds_url,
+      params: { category: "mineral" },
+      headers: auth_headers
     assert_response :success
     feeds = JSON.parse(response.body)
     assert_kind_of Array, feeds
@@ -51,7 +77,8 @@ class Api::V1::FeedsFlowTest < ActionDispatch::IntegrationTest
       "fat" => "9.99",
       "fiber" => "9.99",
       "vitamins" => "A, B",
-      "minerals" => "Ca"
+      "minerals" => "Ca",
+      "category" => "feed"
     }
     get api_v1_feed_url(@feed1), headers: auth_headers
     assert_response :success

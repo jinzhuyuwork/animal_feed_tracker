@@ -15,6 +15,7 @@
 /tmp/*
 !/log/.keep
 !/tmp/.keep
+brakeman_junit.xml
 
 # Ignore pidfiles, but keep the directory.
 /tmp/pids/*

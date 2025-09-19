@@ -7,11 +7,13 @@ one:
   fiber: 9.99
   vitamins: A, B
   minerals: Ca
+  category: feed
 
 two:
-  name: Hay
-  protein: 9.99
-  fat: 9.99
-  fiber: 9.99
-  vitamins: B12
-  minerals: P
+  name: Zinc Supplement
+  protein:
+  fat:
+  fiber:
+  vitamins:
+  minerals: Zn
+  category: mineral

@@ -1,6 +1,6 @@
 # Animal Feeds Tracker API
 
-A Ruby on Rails API application for tracking animal feed formulations, feeds, and quantities to improve animal health management. This app allows users to manage animals, feeds, and formulations, and retrieve detailed information about feed quantities per animal. Built with **Ruby on Rails**, **PostgreSQL**, **Devise JWT authentication** and **Rack::Attack** for rate limiting.
+A Ruby on Rails RESTful API for tracking animal feed formulations, feeds, and quantities to improve animal health management. This app allows users to manage animals, feeds, and formulations, and retrieve detailed information about feed quantities per animal. Built with **Ruby on Rails**, **PostgreSQL**, **Devise JWT authentication** and **Rack::Attack** for rate limiting.
 
 ## Features
 
@@ -124,9 +124,8 @@ bin/rails server
 | Method | Endpoint         | Description                     |
 | ------ | ---------------- | ------------------------------- |
 | POST   | /users           | Sign up                         |
-| POST   | /users/sign\_in  | Sign in                           |
+| POST   | /users/sign\_in  | Sign in                         |
 | GET    | /users/me        | Show current login user details |
-| POST   | /users/sign_out  | Sign out                        |
 
 #### Sample request: login
 ```
@@ -176,27 +175,35 @@ GET /api/v1/animals_with_feeds
     "weight": "450.5",
     "formulations": [
       {
+        "id": 1,
         "name": "High Protein",
         "description": "This is a formula with high protein",
         "quantity": "5.0",
         "feed": {
           "id": 11,
-          "name": "Corn Mix - fresh",
+          "name": "Corn Mix",
+          "category": "feed",
           "protein": "8.0",
           "fiber": "5.0",
-          "fat": "3.5"
+          "fat": "3.5",
+          "vitamins": "A,D,E",
+          "minerals": "Ca,P"
         }
       },
       {
-        "name": "Low fat",
-        "description": "This is a formula with low fat",
-        "quantity": "2.0",
+        "id": 2,
+        "name": "Minerals and other nutrients",
+        "description": "Supply of essential trace minerals and other nutrients.",
+        "quantity": "0.1",
         "feed": {
           "id": 12,
-          "name": "Soy Meal",
-          "protein": "44.0",
-          "fiber": "6.0",
-          "fat": "1.5"
+          "name": "Zinpro ProFusion",
+          "category": "supplement",
+          "protein": null,
+          "fiber": null,
+          "fat": null,
+          "vitamins": null,
+          "minerals": "Zn,Mg,Cu,Caru,KI"
         }
       }
     ]
@@ -209,28 +216,36 @@ GET /api/v1/animals_with_feeds
     "weight": "2.3",
     "formulations": [
       {
-        "name": "Low protein",
-        "description": "This is a formula with low protein",
-        "quantity": "0.5",
+        "id": 3,
+        "name": "Balance feed",
+        "description": "Balance nutrition formula",
+        "quantity": "0.3",
         "feed": {
-          "id": 11,
-          "name": "Corn Mix - fresh",
-          "protein": "8.0",
-          "fiber": "5.0",
-          "fat": "3.5"
+          "id": 9,
+          "name": "Barley Feed",
+          "category": "feed",
+          "protein": "10.0",
+          "fiber": "8.0",
+          "fat": "2.0",
+          "vitamins": "E",
+          "minerals": "K,Fe"
         }
       },
-     {
-       "name": "Balance feed",
-       "description": "This is a formula with balance nutrition",
-       "quantity": "0.3",
-       "feed": {
-         "id": 13,
-         "name": "Barley Feed",
-         "protein": "10.0",
-         "fiber": "8.0",
-         "fat": "2.0"
-       }
+      {
+        "id": 4,
+        "name": "Zinc supplement",
+        "description": "Improves hoof integrity, immune response, reproduction, skin health",
+        "quantity": "0.01",
+        "feed": {
+          "id": 10,
+          "name": "Zinpro Availa Zn",
+          c
+          "protein": null,
+          "fiber": null,
+          "fat": null,
+          "vitamins": null,
+          "minerals": "Zn"
+        }
       }
     ]
   }
@@ -238,12 +253,15 @@ GET /api/v1/animals_with_feeds
 ```
 
 ### Feeds
-| Method | Endpoint           | Description       |
-| ------ | ------------------ | ----------------- |
-| GET    | /api/v1/feeds      | List all feeds    |
-| POST   | /api/v1/feeds      | Create a new feed |
-| GET    | /api/v1/feeds/\:id | Show feed details |
-| PATCH  | /api/v1/feeds/\:id | Update feed       |
+| Method | Endpoint           | Description                                     |
+| ------ | --------------------------------------- | -------------------------- |
+| GET    | /api/v1/feeds                           | List all feeds             |
+| GET    | /api/v1/feeds?category=<category_name>  | Filter feeds by category   |
+| POST   | /api/v1/feeds                           | Create a new feed          |
+| GET    | /api/v1/feeds/\:id                      | Show feed details          |
+| PATCH  | /api/v1/feeds/\:id                      | Update feed                |
+
+\* *Example category names: feed, mineral, supplement*
 
 #### Sample Request: Create Feed
 ```
@@ -251,6 +269,7 @@ POST /api/v1/feeds
 {
   "feed": {
     "name": "Corn",
+    "category": "feed",
     "protein": 8.0,
     "fat": 3.5,
     "fiber": 5.0,
@@ -264,6 +283,7 @@ POST /api/v1/feeds
 {
   "id": 1,
   "name": "Corn",
+  "category": "feed",
   "protein": 8.0,
   "fat": 3.5,
   "fiber": 5.0,

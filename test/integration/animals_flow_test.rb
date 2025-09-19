@@ -57,6 +57,8 @@ class AnimalsFlowTest < ActionDispatch::IntegrationTest
   test "should get animals with feeds" do
     feed1 = feeds(:one)
     feed2 = feeds(:two)
+    formulation1 = formulations(:one)
+    formulation2 = formulations(:two)
 
     expected = [
       {
@@ -67,15 +69,19 @@ class AnimalsFlowTest < ActionDispatch::IntegrationTest
         "weight" => "19.99",
         "formulations" => [
           {
+            "id" => formulation1.id,
             "name" => "High Protein",
             "description" => "This is a high protein formulation",
             "quantity" => "2.5",
             "feed" => {
               "id" => feed1.id,
               "name" => "Corn Mix",
+              "category" => "feed",
               "protein" => "9.99",
               "fiber" => "9.99",
-              "fat" => "9.99"
+              "fat" => "9.99",
+              "vitamins" => "A, B",
+              "minerals" => "Ca"
             }
           }
         ]
@@ -88,15 +94,19 @@ class AnimalsFlowTest < ActionDispatch::IntegrationTest
         "weight" => "9.99",
         "formulations" => [
           {
-            "name" => "High Fiber",
-            "description" => "This is a high fiber formulation",
-            "quantity" => "3.5",
+            "id" => formulation2.id,
+            "name" => "Zinc Supplement",
+            "description" => "Add Zinc Supplement for healthy skin",
+            "quantity" => "0.1",
             "feed" => {
-            "id" => feed2.id,
-              "name" => "Hay",
-              "protein" => "9.99",
-              "fiber" => "9.99",
-              "fat" => "9.99"
+              "id" => feed2.id,
+              "name" => "Zinc Supplement",
+              "category" => "mineral",
+              "protein" => nil,
+              "fiber" => nil,
+              "fat" => nil,
+              "vitamins" => nil,
+              "minerals" => "Zn"
             }
           }
         ]

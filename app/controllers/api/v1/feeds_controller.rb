@@ -7,7 +7,7 @@ module Api
       before_action :set_feed, only: [ :show, :update ]
 
       def index
-        feeds = Feed.all
+        feeds = params[:category].present? ? Feed.where(category: params[:category]) : Feed.all
         render json: feeds
       end
 

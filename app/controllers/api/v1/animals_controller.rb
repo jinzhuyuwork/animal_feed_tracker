@@ -40,10 +40,10 @@ module Api
           only: [ :id, :name, :species, :age, :weight ],
           include: {
             formulations: {
-              only: [ :name, :description, :quantity ],
+              only: [ :id, :name, :description, :quantity ],
               include: {
               feed: {
-                only: [ :id, :name, :protein, :fiber, :fat ]
+                only: [ :id, :name, :category, :protein, :fiber, :fat, :vitamins, :minerals ]
               }
             }
             }

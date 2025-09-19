@@ -11,4 +11,10 @@ class FeedTest < ActiveSupport::TestCase
     feed.name = nil
     assert_equal(false, feed.valid?)
   end
+
+  test "feed category is required" do
+    feed = feeds(:one)
+    feed.category = nil
+    assert_equal(false, feed.valid?)
+  end
 end

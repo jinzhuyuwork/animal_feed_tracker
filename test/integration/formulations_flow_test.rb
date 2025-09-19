@@ -31,9 +31,9 @@ class Api::V1::FormulationsFlowTest < ActionDispatch::IntegrationTest
         "id" => @formulation2.id,
         "animal_id" => @animal2.id,
         "feed_id" => @feed2.id,
-        "quantity" => "3.5",
-        "name" => "High Fiber",
-        "description" => "This is a high fiber formulation"
+        "quantity" => "0.1",
+        "name" => "Zinc Supplement",
+        "description" => "Add Zinc Supplement for healthy skin"
       }
     ]
 
