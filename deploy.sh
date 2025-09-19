@@ -44,6 +44,6 @@ if [ "$answer" = "NO" ]; then
   echo "Exiting..."
   exit 1
 else
-  # git push origin main
+  git push origin main
   echo "Done deployment. Server will restart shortly."
 fi
