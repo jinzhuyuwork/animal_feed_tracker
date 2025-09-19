@@ -2,6 +2,8 @@ class ApplicationController < ActionController::API
   include ActionController::MimeResponds
   include ActionController::Cookies
 
+  before_action :log_ip
+
   def authenticate_user!(opts = {})
     if user_signed_in?
       super
@@ -15,5 +17,13 @@ class ApplicationController < ActionController::API
     unless current_user&.admin?
       render json: { error: "Access denied. Admins only." }, status: :forbidden
     end
+  end
+
+
+  private
+
+  def log_ip
+    Rails.logger.info "Request IP (request.ip): #{request.ip}"
+    Rails.logger.info "Remote IP (request.remote_ip): #{request.remote_ip}"
   end
 end

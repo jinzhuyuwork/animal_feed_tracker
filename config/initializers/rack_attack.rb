@@ -2,7 +2,8 @@ class Rack::Attack
   # 1. Throttle logins by IP address: max 5 requests per 20 seconds
   throttle('logins/ip', limit: 5, period: 20.seconds) do |req|
     if req.path == '/users/sign_in' && req.post?
-      req.ip
+      # req.ip
+      req.get_header('action_dispatch.remote_ip')
     end
   end
 
