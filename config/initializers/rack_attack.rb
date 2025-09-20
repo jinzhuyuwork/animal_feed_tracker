@@ -8,19 +8,19 @@ class Rack::Attack
       # email = JSON.parse(body).dig('user', 'email') rescue nil
 
       email = req.get_header('HTTP_X_EMAIL')
-      Rails.logger.info "Rate limtting for email: #{email}"
+      # Rails.logger.info "Rate limtting for email: #{email}"
       email
     end
   end
 
   # 2. Throttle all API requests: max 60 requests per minute
-  throttle('req/ip', limit: 5, period: 20.seconds) do |req|
+  throttle('req/ip', limit: 60, period: 1.minute) do |req|
     # req.ip if req.path.start_with?('/api/v1/')
     if req.path.start_with?('/api/v1/')
       auth_header = req.get_header('HTTP_AUTHORIZATION')
       token = auth_header.split(' ').last if auth_header&.start_with?('Bearer ')
       
-      Rails.logger.info "Rate limtting for token: #{token}"
+      # Rails.logger.info "Rate limtting for token: #{token}"
       # return token or decoded user id for rate limiting key
       token
     end
