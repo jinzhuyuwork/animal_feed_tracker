@@ -1,4 +1,5 @@
 require_relative "boot"
+require_relative "../lib/middleware/extract_email"
 
 # require "rails/all"
 require "rails"
@@ -9,7 +10,6 @@ require "active_record/railtie"
 require "action_controller/railtie"
 require "action_mailer/railtie"
 require "rails/test_unit/railtie"
-require_relative '../lib/middleware/extract_email'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -19,6 +19,8 @@ module FeedTrackerApi
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 8.0
+
+    config.autoload_paths << Rails.root.join('lib')
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
@@ -42,9 +44,11 @@ module FeedTrackerApi
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore
     config.middleware.use ActionDispatch::Flash
+    # config.autoload_paths << Rails.root.join('app/middleware')
+    # config.middleware.use Middleware::ExtractEmail
     config.middleware.use Rack::Attack
 
-    config.middleware.insert_before Rack::Attack, ExtractEmail
+    config.middleware.insert_before Rack::Attack, Middleware::ExtractEmail
 
   end
 end
