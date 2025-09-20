@@ -2,10 +2,11 @@ class Rack::Attack
   # 1. Throttle logins: max 5 requests per 20 seconds
   throttle('logins/ip', limit: 2, period: 20.seconds) do |req|
     if req.path == '/users/sign_in' && req.post?
-      req.ip
+      # req.ip
       # body = req.body.read
       # req.body.rewind
       # email = JSON.parse(body).dig('user', 'email') rescue nil
+      (req.get_header('HTTP_X_FORWARDED_FOR') || req.ip).split(',').first
     end
   end
 
