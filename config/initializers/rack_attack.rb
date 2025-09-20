@@ -14,7 +14,7 @@ class Rack::Attack
   end
 
   # 2. Throttle all API requests: max 60 requests per minute
-  throttle('req/ip', limit: 60, period: 1.minute) do |req|
+  throttle('req/ip', limit: 5, period: 20.seconds) do |req|
     # req.ip if req.path.start_with?('/api/v1/')
     if req.path.start_with?('/api/v1/')
       auth_header = req.get_header('HTTP_AUTHORIZATION')
