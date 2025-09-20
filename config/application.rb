@@ -49,6 +49,5 @@ module FeedTrackerApi
     config.middleware.use Rack::Attack
 
     config.middleware.insert_before Rack::Attack, Middleware::ExtractEmail
-
   end
 end
