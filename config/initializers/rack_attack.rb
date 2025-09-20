@@ -1,6 +1,6 @@
 class Rack::Attack
   # 1. Throttle logins: max 5 requests per 20 seconds
-  throttle('logins/ip', limit: 2, period: 20.seconds) do |req|
+  throttle('logins/ip', limit: 5, period: 20.seconds) do |req|
     if req.path == '/users/sign_in' && req.post?
       # req.ip
       body = req.body.read
@@ -10,15 +10,15 @@ class Rack::Attack
   end
 
   # 2. Throttle all API requests: max 60 requests per minute
-  # throttle('req/ip', limit: 60, period: 1.minute) do |req|
-  throttle('req/ip', limit: 2, period: 20.seconds) do |req|
+  throttle('req/ip', limit: 60, period: 1.minute) do |req|
     # req.ip if req.path.start_with?('/api/v1/')
-    # req.get_header('HTTP_AUTHORIZATION') if req.path.start_with?('/api/v1/')
-    auth_header = req.get_header('HTTP_AUTHORIZATION')
+    if req.path.start_with?('/api/v1/')
+      auth_header = req.get_header('HTTP_AUTHORIZATION')
       token = auth_header.split(' ').last if auth_header&.start_with?('Bearer ')
       
       # return token or decoded user id for rate limiting key
       token
+    end
   end
 
   # 3. Blocklisted IPs example (optional)
