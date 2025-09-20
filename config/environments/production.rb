@@ -86,4 +86,11 @@ Rails.application.configure do
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
   config.require_master_key = true
+
+  config.action_dispatch.trusted_proxies = [
+    # Render’s private network range
+    IPAddr.new("10.0.0.0/8"),
+    IPAddr.new("172.16.0.0/12"),
+    IPAddr.new("192.168.0.0/16")
+  ]
 end

@@ -90,8 +90,8 @@ open coverage/index.html
 - **Clone the repository**
 
 ```bash
-git clone https://github.com/jinzhuyuwork/animal-feeds-tracker.git
-cd animal-feeds-tracker
+git clone https://github.com/jinzhuyuwork/animal_feed_tracker.git
+cd animal-feed-tracker
 ```
 
 - **Install Gems**
