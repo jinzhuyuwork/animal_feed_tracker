@@ -9,6 +9,7 @@ require "active_record/railtie"
 require "action_controller/railtie"
 require "action_mailer/railtie"
 require "rails/test_unit/railtie"
+require_relative '../lib/middleware/extract_email'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -42,5 +43,8 @@ module FeedTrackerApi
     config.middleware.use ActionDispatch::Session::CookieStore
     config.middleware.use ActionDispatch::Flash
     config.middleware.use Rack::Attack
+
+    config.middleware.insert_before Rack::Attack, ExtractEmail
+
   end
 end

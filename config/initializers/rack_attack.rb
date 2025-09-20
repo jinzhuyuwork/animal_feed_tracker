@@ -6,7 +6,10 @@ class Rack::Attack
       # body = req.body.read
       # req.body.rewind
       # email = JSON.parse(body).dig('user', 'email') rescue nil
-      (req.get_header('HTTP_X_FORWARDED_FOR') || req.ip).split(',').first
+
+      email = req.get_header('HTTP_X_EMAIL')
+      Rails.logger.info "Rate limtting for email: #{email}"
+      email
     end
   end
 
@@ -17,6 +20,7 @@ class Rack::Attack
       auth_header = req.get_header('HTTP_AUTHORIZATION')
       token = auth_header.split(' ').last if auth_header&.start_with?('Bearer ')
       
+      Rails.logger.info "Rate limtting for token: #{token}"
       # return token or decoded user id for rate limiting key
       token
     end

@@ -93,4 +93,6 @@ Rails.application.configure do
     IPAddr.new("172.16.0.0/12"),
     IPAddr.new("192.168.0.0/16")
   ]
+
+  config.log_tags = [:remote_ip]
 end
