@@ -41,13 +41,12 @@ Role checks are implemented at the controller level using before-action filters 
 
 - The app uses Rack::Attack for rate limiting.
 - Default configuration:
-  - 5 login requests per 20 seconds per IP
-  - 60 requests per minute per IP for authenticated API endpoints.
-  - Blocklisted IPs or suspicious patterns can be throttled or blocked.
+  - 5 login requests per 20 seconds.
+  - 60 requests per minute for authenticated API endpoints.
 - When rate limits are exceeded, the API returns:
 ```
 {
-  "error": "Throttle limit reached. Try again later."
+  "error": "Rate limit exceeded. Please try again later."
 }
 ```
 
