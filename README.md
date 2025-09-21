@@ -124,15 +124,15 @@ bin/rails server
 | ------ | ---------------- | ------------------------------- |
 | POST   | /users           | Sign up                         |
 | POST   | /users/sign\_in  | Sign in                         |
-| GET    | /users/me        | Show current login user details |
+| GET    | /api/v1/users/me | Show current login user details |
 
 #### Sample request: login
 ```
 POST /users/sign_in
 {
   "user": {
-    "email": "test@example.com",
-    "password": "password123"
+    "email": "test@test.com",
+    "password": "test123"
   }
 }
 ````
@@ -141,7 +141,7 @@ POST /users/sign_in
 {
   "user": {
     "id":5,
-    "email":"test@example.com",
+    "email":"test@test.com",
     "created_at":"2025-09-17T05:36:44.111Z",
     "updated_at":"2025-09-17T05:36:44.111Z",
     "admin":false
