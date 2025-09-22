@@ -1,12 +1,14 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  id: 1
   name: Doggy
   species: Dog
   age: 1
   weight: 19.99
 
 two:
+  id: 2
   name: Kitty
   species: Cat
   age: 2

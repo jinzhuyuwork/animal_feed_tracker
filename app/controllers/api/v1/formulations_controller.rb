@@ -7,7 +7,7 @@ module Api
       before_action :set_formulation, only: [ :show, :update ]
 
       def index
-        formulations = Formulation.all
+        formulations = Formulation.all.order(:id)
         render json: formulations
       end
 

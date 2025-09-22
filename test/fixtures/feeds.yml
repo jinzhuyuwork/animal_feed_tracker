@@ -1,6 +1,7 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  id: 1
   name: Corn Mix
   protein: 9.99
   fat: 9.99
@@ -10,6 +11,7 @@ one:
   category: feed
 
 two:
+  id: 2
   name: Zinc Supplement
   protein:
   fat:

@@ -1,15 +1,17 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  animal: one
-  feed: one
+  id: 1
+  animal_id: 1
+  feed_id: 1
   quantity: 2.5
   name: High Protein
   description: This is a high protein formulation
 
 two:
-  animal: two
-  feed: two
+  id: 2
+  animal_id: 2
+  feed_id: 2
   quantity: 0.1
   name: Zinc Supplement
   description: Add Zinc Supplement for healthy skin

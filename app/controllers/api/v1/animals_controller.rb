@@ -7,7 +7,7 @@ module Api
       before_action :set_animal, only: [ :show, :update ]
 
       def index
-        animals = Animal.all
+        animals = Animal.all.order(:id)
         render json: animals
       end
 
@@ -34,7 +34,7 @@ module Api
 
       # GET /api/v1/animals_with_feeds
       def with_feeds
-        animals = Animal.includes(formulations: :feed)
+        animals = Animal.order(:id).includes(formulations: :feed)
 
         render json: animals.as_json(
           only: [ :id, :name, :species, :age, :weight ],
